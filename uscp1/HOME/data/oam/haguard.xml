@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<haguard_conf> 
+	<!-- AS(Active-Standby), AA(Active-Active), SA(StandAlone) -->
+	<haguard type="AA">
+		<socket send_interval="2" init_interval="5" port="25010" peer_timeout="30" manual_switch_timeout="10"/>
+		<haguard0 name="uscp1"/>
+		<haguard1 name="uscp1bk"/>
+	</haguard>
+	<user_config set_standby_by_user="false"/>
+
+	<network_path>
+		<!--path name="scp" haguard0_ip="10.41.0.50" haguard1_ip="10.41.0.49"/-->
+	</network_path>
+
+	<failover>
+		<switch_script>
+			<active path="$(UASYS_HOME)/scripts/active.sh"/>
+			<standby path="$(UASYS_HOME)/scripts/standby.sh"/>
+		</switch_script>
+
+		<condition check_condition="true">
+            <resource group_name="RESOURCE" enabled="true" interval="10">
+                <!--cpu    name="CPU_USAGE" threshold="90" wait_time="10" /-->
+                <memory name="MEM_USAGE" threshold="90" wait_time="10"/>
+                <!--disk   name="/"         threshold="95" wait_time="10" /-->
+            </resource>
+  			<processes enabled="false" interval="1">
+    			<process name="usrgif"/>
+    			<process name="utcap"/>
+    			<process name="atif"/>
+    			<process name="uangin"/>
+    			<process name="roif"/>
+    			<process name="adif"/>
+    			<process name="npserv"/>
+    			<!--process name="bpserv"/-->
+  			</processes>
+  			<networks enabled="false" interval="1">
+				<!--network name="scp_network">
+					<path name="scp"/>
+				</network-->
+  			</networks>
+  			<scripts enabled="false" interval="5">
+				<script name="check_file" path="$(UASYS_HOME)/scripts/check_file.sh"/>
+  			</scripts>
+		</condition>
+
+		<virtual_ip enabled="false" repeat_up="true" repeat_interval="300" using_arping="false">
+			<!--vip path_name="scp" haguard0_vip="192.168.3.246" haguard1_vip="192.168.3.246" netmask="255.255.0.0" broadcast="192.168.255.255"/-->
+  		</virtual_ip>
+	</failover>
+</haguard_conf>

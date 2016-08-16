@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration SYSTEM "configuration.dtd">
+
+<configuration>
+	<general>
+		<product>UANGEL Diameter</product>
+		<version>1</version>
+		<vendor_id>0</vendor_id>
+		<supported_vendor_id>0</supported_vendor_id>
+		<supported_vendor_id>1</supported_vendor_id>
+		<supported_vendor_id>10415</supported_vendor_id>
+		<supported_vendor_id>14389</supported_vendor_id>
+		<auth_application_id>1</auth_application_id>
+		<auth_application_id>4</auth_application_id>
+		<acct_application_id>3</acct_application_id>
+		<acct_application_id>6</acct_application_id>
+		<acct_application_id>4294967295</acct_application_id>
+	</general>
+
+	<dictionary file="/home/app/HOME/data/dict/dict_ietf_avps.xml"/>
+	<dictionary file="/home/app/HOME/data/dict/dict_ietf_base.xml"/>
+	<dictionary file="/home/app/HOME/data/dict/dict_3gpp_avps.xml"/>
+	<dictionary file="/home/app/HOME/data/dict/dict_telkomsel.xml"/>
+	<dictionary file="/home/app/HOME/data/dict/dict_3gpp_ro_telkomsel.xml"/>
+	<dictionary file="/home/app/HOME/data/dict/dict_3gpp_sh.xml"/>
+	<dictionary file="/home/app/HOME/data/dict/dict_3gpp_rf.xml"/>
+
+	<transport>
+		<!--identity>nfvscp.uangel.com</identity-->
+		<identity>nfvscp.uangel.com</identity>
+		<realm>uangel.com</realm>
+		<tcp_listen_port>3869</tcp_listen_port>
+		<sctp_listen_port>3868</sctp_listen_port>
+		<use_ipv6>1</use_ipv6>
+		<tw_timer>30000</tw_timer>
+		<tc_timer>5</tc_timer>
+		<tq_timer>10</tq_timer>
+		<te_timer>10</te_timer>
+		<use_duplicate_detect>no</use_duplicate_detect>
+		<ignore_unknown_avp>yes</ignore_unknown_avp>
+		<no_check_header_flag>yes</no_check_header_flag>
+		<check_mandatory_avp_length>no</check_mandatory_avp_length>
+		<reconnect_max>5</reconnect_max>
+		<max_retrans_count>0</max_retrans_count>
+		<advertised_hostname>100.1.1.21</advertised_hostname>
+	</transport>
+
+	<fault_resilience>
+		<save_ucd>no</save_ucd>
+		<support_ucd_type>RO</support_ucd_type>
+		<ucd_save_path></ucd_save_path>
+		<max_ucd_rec>0</max_ucd_rec>
+		<trans_saved_ucd>no</trans_saved_ucd>
+		<trans_ucd_type>RO</trans_ucd_type>
+		<ucd_trans_timer>0</ucd_trans_timer>
+	</fault_resilience>
+	<peer_table expire_time="1">
+		<peer hostname="ocs.amdocs.com" address="100.1.1.31" port="20000" static_flag="0" transport_type="TCP"/>
+	</peer_table>
+	<route_table expire_time="0">
+		<route realm="amdocs.com" role="LOCAL" default="no">
+			<application application_id="4" vendor_id="0">
+				<peer_entry peer_name="ocs.amdocs.com"/>
+			</application>
+		</route>
+		<route realm="telkomsel.com" role="LOCAL" default="no">
+	<!--		<application application_id="4" vendor_id="0">
+				<peer_entry peer_name="sim.telkomsel.com"/>
+			</application>-->
+	<!--		<application application_id="4" vendor_id="0">
+				<peer_entry peer_name="rtsc.telkomsel.com"/>
+			</application>-->
+		</route>
+	</route_table>
+</configuration>
